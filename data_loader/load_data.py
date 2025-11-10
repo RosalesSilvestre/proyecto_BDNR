@@ -13,9 +13,10 @@ TICKERS_TO_PROCESS = 80
 DATA_PERIOD = "5y"
 
 def get_sp500_tickers():
-    # (Esta función no necesita cambios, se mantiene igual)
+    # Esta funcion regresa la lista de tickers que utilizamos para subir a la base de datos
     print("--- Obteniendo la lista de tickers del S&P 500...")
     try:
+        #Aqui hacemos las solicitudes http
         url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
         headers = {'User-Agent': 'Mozilla/5.0'}
         response = requests.get(url, headers=headers, timeout=10)
@@ -29,15 +30,13 @@ def get_sp500_tickers():
         return []
 
 def fetch_stock_data():
-    # (Esta función no necesita cambios, se mantiene igual)
+    # esta funcion procesa los datos de los ticker con ayuda de la libreria yfinance
     tickers = get_sp500_tickers()
     if not tickers: return None
     
     tickers_to_process = tickers[:TICKERS_TO_PROCESS]
     all_documents = []
     print(f"\n--- Iniciando la descarga de datos para {len(tickers_to_process)} tickers...")
-    # ... (resto de la lógica de descarga)
-    # Por brevedad, omito el cuerpo de la función que ya tienes
     for i, ticker in enumerate(tickers_to_process):
         print(f"Procesando ticker {i + 1}/{len(tickers_to_process)}: {ticker}")
         try:
@@ -57,11 +56,11 @@ def fetch_stock_data():
 
 
 def load_data_to_mongo(data):
+    #Esta funcion se conecta a mongodb local y agrega los datos.
     if not data:
         print("No hay datos para cargar.")
         return
 
-    # ** LA PARTE CLAVE ESTÁ AQUÍ **
     # Obtener credenciales del entorno
     mongo_user = os.getenv('MONGO_INITDB_ROOT_USERNAME')
     mongo_pass = os.getenv('MONGO_INITDB_ROOT_PASSWORD')
