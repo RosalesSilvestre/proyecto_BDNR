@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  spark-app:
+    # Nombre del servicio (puedes poner lo que quieras)
+    container_name: pyspark_tarea3
+    
+    # Le dice a Compose que construya la imagen desde el Dockerfile
+    # en el directorio actual ('.')
+    build: .
+    
+    # ¡La parte mágica!
+    # Sincroniza tu carpeta actual ('.') con la carpeta /app del contenedor.
+    # Los cambios en tu main.py local se reflejan al instante.
+    volumes:
+      - ./:/app
